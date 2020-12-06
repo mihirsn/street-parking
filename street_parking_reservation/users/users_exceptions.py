@@ -1,0 +1,2 @@
+class PhoneNumberException(Exception):
+    pass

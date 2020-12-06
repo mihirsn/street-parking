@@ -25,7 +25,7 @@ SECRET_KEY = ')gxw48s&ywga8k$bdd&)5s)e)vz_n+sv51cslb#7_ui-!)ah=5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.46.56.27']
 
 
 # Application definition
@@ -128,3 +128,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [],
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
+
+NUMVERIFY_URL = 'http://apilayer.net/api/validate'
+NUMVERIFY_ACCESS_KEY = 'cafd9b1f0a5545e754de0eee078d914e'
+NUMVERIFY_COUNTRY_CODE = 'IN'

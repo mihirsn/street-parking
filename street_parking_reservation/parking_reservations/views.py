@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+import math
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -63,8 +65,42 @@ def reserve_a_spot(request):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['PUT'])
+def cancel_a_spot(request):
+    if request.method == 'PUT':
+        spot = request.data.get('spot_id')
+        user = request.data.get('user_id') 
+        vehicle_no = request.data.get('vehicle_no')
+        user_obj = Users.objects.filter(id = user)
+        spot_obj = ParkingSpot.objects.filter(id = spot)      
+        if spot_obj.count() == 1 and user_obj.count()==1 and spot_obj[0].status == 'R':
+            spot_obj = spot_obj[0]
+            spot_obj.status = 'A'
+            spot_obj.save()
+            Reservation.objects.filter(user = user).filter(parking_spot = spot).delete()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    
+@api_view(['POST'])
+def show_cost(request):
+    if request.method == 'POST':
+        spot = request.data.get('spot_id')
+        user = request.data.get('user_id')
+        reservation_obj = Reservation.objects.filter(user = user).filter(parking_spot = spot)
+        spot_obj = ParkingSpot.objects.filter(id = spot)
 
+        reservation_datetime = reservation_obj[0].created_on
+        current_datetime = datetime.now(timezone.utc)
+        reservation_time = current_datetime - reservation_datetime
+        reservation_time_in_hrs = math.ceil(reservation_time.total_seconds()/3600)
+        print(f"diff array:{reservation_time}")
+        print(f"duration of reservation:{reservation_time_in_hrs}")
+
+        total_cost = reservation_time_in_hrs * spot_obj[0].cost
+        return Response({'reservation_cost': total_cost}, status=status.HTTP_200_OK)
+
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 

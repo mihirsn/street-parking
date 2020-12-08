@@ -27,7 +27,15 @@ urlpatterns = [
         r'^api/v1/reserve/spot/$',
         views.reserve_a_spot,
         name='reserve_a_spot',
+    ),
+    url(
+        r'^api/v1/cancel/spot/$',
+        views.cancel_a_spot,
+        name='cancel_a_spot',
+    ),
+    url(
+        r'^api/v1/show/cost/$',
+        views.show_cost,
+        name='show_cost',
     )
-
-    
 ]

@@ -25,6 +25,7 @@ from users import views
 
 urlpatterns = [
     url(r'^', include('users.urls')),
+    url(r'^', include('parking_reservations.urls')),
     url(
         r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')

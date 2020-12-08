@@ -129,6 +129,23 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
 
+
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
+
 NUMVERIFY_URL = 'http://apilayer.net/api/validate'
 NUMVERIFY_ACCESS_KEY = 'cafd9b1f0a5545e754de0eee078d914e'
 NUMVERIFY_COUNTRY_CODE = 'IN'

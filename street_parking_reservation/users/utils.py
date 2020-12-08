@@ -2,9 +2,13 @@ import requests
 from requests.exceptions import HTTPError
 from django.conf import settings
 from .users_exceptions import PhoneNumberException
+import logging
+
+logger = logging.getLogger(__name__)
 
 def validate_phone_number(phone_number):
     try:
+        logger.info("Validating phone number")
         url = f'{settings.NUMVERIFY_URL}?access_key={settings.NUMVERIFY_ACCESS_KEY}&number={phone_number}&country_code={settings.NUMVERIFY_COUNTRY_CODE}&format=1'
         response = requests.get(url)
         response.raise_for_status()

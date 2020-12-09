@@ -1,6 +1,7 @@
 import logging
 
 import requests
+import re
 from django.conf import settings
 from requests.exceptions import HTTPError
 
@@ -8,7 +9,9 @@ from .users_exceptions import PhoneNumberException
 
 logger = logging.getLogger(__name__)
 
-
+def valid_password(password):
+    return re.fullmatch(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$", password)
+    
 def validate_phone_number(phone_number):
     try:
         logger.info("Validating phone number")

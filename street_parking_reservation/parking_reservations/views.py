@@ -11,6 +11,8 @@ from users.models import Users
 from .models import ParkingSpot, Reservation
 from .serializers import ParkingSpotSerializer
 
+from .utils import find_spots_in_radius
+
 
 # Create your views here.
 @api_view(['POST'])
@@ -41,7 +43,7 @@ def get_all_available_spots(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
         print(f'{err}')
-        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(err, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['GET'])
@@ -55,7 +57,7 @@ def get_all_reserved_spots(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
         print(f'{err}')
-        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(err, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])
@@ -87,7 +89,7 @@ def reserve_a_spot(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
         print(f'{err}')
-        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(err, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['PUT'])
@@ -115,7 +117,7 @@ def cancel_a_spot(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
         print(f'{err}')
-        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(err, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @api_view(['POST'])
@@ -142,4 +144,27 @@ def show_cost(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     except Exception as err:
         print(f'{err}')
-        return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(err, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+def get_spots_by_radius(request):
+    try:
+        if request.method == 'POST':
+            latitude = request.data.get('latitude')
+            longitude = request.data.get('longitude')
+            radius = request.data.get('radius')
+            vehicle_type = request.query_params.get('vehicle_type', None)
+
+            available_spots = ParkingSpot.objects.filter(status='A').filter(spot_type=vehicle_type) if vehicle_type else ParkingSpot.objects.filter(status='A')
+            serializer = ParkingSpotSerializer(available_spots, many=True)
+
+            if len(serializer.data) > 0:
+                available_spots_in_radius = find_spots_in_radius(serializer.data, latitude = latitude, longitude = longitude, radius = radius)
+                print("found spots")
+                return Response({"spots": available_spots_in_radius}, status=status.HTTP_200_OK)
+            else:
+                error = {'message': f"No available spots from your location within {radius}km of radius"}
+                return Response(error, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    except Exception as err:
+        print(f'{err}')
+        return Response(err, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

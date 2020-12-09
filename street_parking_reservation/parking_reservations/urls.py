@@ -3,11 +3,6 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    # url(
-    #     r'^api/v1/users/(?P<pk>[0-9]+)$',
-    #     views.get_delete_update_user,
-    #     name='get_delete_update_user'
-    # ),
     url(
         r'^api/v1/spots/$',
         views.add_parking_spots,
@@ -37,5 +32,10 @@ urlpatterns = [
         r'^api/v1/show/cost/$',
         views.show_cost,
         name='show_cost',
+    ),
+    url(
+        r'^api/v1/radius/spots/$',
+        views.get_spots_by_radius,
+        name='get_spots_by_radius',
     ),
 ]

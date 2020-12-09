@@ -18,12 +18,9 @@ from django.urls import path
 from django.conf.urls import include, url
 from users import views
 
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('users/', )
-# ]
-
 urlpatterns = [
+    url(r'^auth/', include('djoser.urls')),
+    url(r'^auth/', include('djoser.urls.authtoken')),
     url(r'^', include('users.urls')),
     url(r'^', include('parking_reservations.urls')),
     url(

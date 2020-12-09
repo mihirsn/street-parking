@@ -13,11 +13,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='parkingspot',
             name='status',
-            field=models.CharField(choices=[('A', 'A'), ('R', 'R'), ('S', 'S')], default=4, max_length=1),
+            field=models.CharField(
+                choices=[('A', 'A'), ('R', 'R'), ('S', 'S')], default=4, max_length=1
+            ),
         ),
         migrations.AlterField(
             model_name='parkingspot',
             name='spot_type',
-            field=models.IntegerField(choices=[(2, 'Two-wheeler'), (4, 'Four-wheeler')], default='A'),
+            field=models.IntegerField(
+                choices=[(2, 'Two-wheeler'), (4, 'Four-wheeler')], default='A'
+            ),
         ),
     ]

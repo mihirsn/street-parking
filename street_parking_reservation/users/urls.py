@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from . import views
 
+from . import views
 
 urlpatterns = [
     # url(
@@ -8,9 +8,5 @@ urlpatterns = [
     #     views.get_delete_update_user,
     #     name='get_delete_update_user'
     # ),
-    url(
-        r'^api/v1/users/$',
-        views.get_post_users,
-        name='get_post_users'
-    )
+    url(r'^api/v1/users/$', views.get_post_users, name='get_post_users')
 ]

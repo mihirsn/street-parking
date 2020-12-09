@@ -18,12 +18,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='parkingspot',
             name='spot_type',
-            field=models.IntegerField(choices=[(2, 'Two-wheeler'), (4, 'Four-wheeler')], default=4),
+            field=models.IntegerField(
+                choices=[(2, 'Two-wheeler'), (4, 'Four-wheeler')], default=4
+            ),
         ),
         migrations.AlterField(
             model_name='parkingspot',
             name='status',
-            field=models.CharField(choices=[('A', 'A'), ('R', 'R'), ('S', 'S')], default='A', max_length=1),
+            field=models.CharField(
+                choices=[('A', 'A'), ('R', 'R'), ('S', 'S')], default='A', max_length=1
+            ),
         ),
         migrations.AlterField(
             model_name='reservation',

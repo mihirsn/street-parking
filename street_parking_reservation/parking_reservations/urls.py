@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from . import views
 
+from . import views
 
 urlpatterns = [
     # url(
@@ -37,5 +37,5 @@ urlpatterns = [
         r'^api/v1/show/cost/$',
         views.show_cost,
         name='show_cost',
-    )
+    ),
 ]

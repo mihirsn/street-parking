@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class ParkingSpot(models.Model):
     TWO_WHEELER = 2
     FOUR_WHEELER = 4
@@ -29,10 +30,10 @@ class ParkingSpot(models.Model):
         default=AVAILABLE,
     )
 
+
 class Reservation(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey('users.Users', on_delete=models.CASCADE)
     parking_spot = models.ForeignKey(ParkingSpot, on_delete=models.CASCADE)
     vehicle_no = models.CharField(max_length=128)
     created_on = models.DateTimeField(auto_now_add=True)
-

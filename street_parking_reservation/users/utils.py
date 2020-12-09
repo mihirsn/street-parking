@@ -1,10 +1,13 @@
-import requests
-from requests.exceptions import HTTPError
-from django.conf import settings
-from .users_exceptions import PhoneNumberException
 import logging
 
+import requests
+from django.conf import settings
+from requests.exceptions import HTTPError
+
+from .users_exceptions import PhoneNumberException
+
 logger = logging.getLogger(__name__)
+
 
 def validate_phone_number(phone_number):
     try:

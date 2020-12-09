@@ -1,10 +1,12 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+
 from .models import Users
 from .serializers import UsersSerializer
-from .utils import validate_phone_number
 from .users_exceptions import PhoneNumberException
+from .utils import validate_phone_number
+
 
 @api_view(['GET', 'POST'])
 def get_post_users(request):
@@ -18,7 +20,7 @@ def get_post_users(request):
         if request.method == 'POST':
             data = {
                 'name': request.data.get('name'),
-                'phone_number': request.data.get('phone_number')
+                'phone_number': request.data.get('phone_number'),
             }
             validation_response = validate_phone_number(data['phone_number'])
             if 'valid' in validation_response and validation_response['valid']:
